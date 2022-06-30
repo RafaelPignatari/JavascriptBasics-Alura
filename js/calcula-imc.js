@@ -1,10 +1,10 @@
 var titulo = document.querySelector(".titulo");
 
-titulo.textContent = "Rafael";
+titulo.textContent = "Aparecida Nutricionista";
 
 var pacientes = document.querySelectorAll(".paciente");
 
-pacientes.forEach(calculaIMC);
+pacientes.forEach(processaDados);
 
 function validaDados(paciente, peso, altura) {
     if (peso <= 0 || peso >= 1000) {
@@ -22,10 +22,14 @@ function validaDados(paciente, peso, altura) {
     return true;
 }
 
-function calculaIMC(paciente) {
+function calculaIMC(peso, altura) {
+    return (peso/(altura*altura)).toFixed(2);
+}
+
+function processaDados(paciente) {
     var peso = paciente.querySelector(".info-peso").textContent;
     var altura = paciente.querySelector(".info-altura").textContent;
 
     if (validaDados(paciente, peso, altura))
-        paciente.querySelector(".info-imc").textContent = (peso/(altura*altura)).toFixed(2);
+        paciente.querySelector(".info-imc").textContent = calculaIMC(peso, altura);
 }
