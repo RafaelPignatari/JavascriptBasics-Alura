@@ -2,19 +2,24 @@ var botaoAdicionar = document.querySelector("#adicionar-paciente");
 
 botaoAdicionar.addEventListener("click", function(event) {
     event.preventDefault();
-    console.log("Fui pressionado!");
 
     var form = document.querySelector("#form-adiciona");
-    
     var paciente = obtemPacienteFormulario(form);
-
     var pacienteTr = montaTr(paciente);
+    var errosFormulario = validaPaciente(paciente);
 
-    var tabela = document.querySelector("#tabela-pacientes");
+    if (errosFormulario.length == 0) {
+        var tabela = document.querySelector("#tabela-pacientes");
+        var ul = document.querySelector("#mensagens-erro");
 
-    tabela.appendChild(pacienteTr);
-
-    form.reset();
+        tabela.appendChild(pacienteTr);
+        ul.innerHTML = "";
+        
+        form.reset();
+    }
+    else {
+        exibeMensagensDeErro(errosFormulario);
+    }
 });
 
 function obtemPacienteFormulario(form) {
@@ -49,4 +54,16 @@ function montaTd(dado, classe) {
     td.classList.add(classe);
 
     return td;
+}
+
+function exibeMensagensDeErro(erros) {
+    var ul = document.querySelector("#mensagens-erro");
+    ul.innerHTML = ""; //Serve para controlar o html diretamente do elemento. Nessa linha utiliza-se para remover as LIs anteriores.
+
+    erros.forEach(function(erro) {
+        var li = document.createElement("li");
+
+        li.textContent = erro;
+        ul.appendChild(li);
+    });
 }
